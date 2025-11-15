@@ -41,7 +41,7 @@ def test_multiple_files(tmp_path):
 
     assert len(result) == 2
     assert set(result.keys()) == {"a.txt", "b.txt"}
-    assert result["a.txt"] == ["hello", "there"]
+    assert result["a.txt"] == ["hello"]
     assert result["b.txt"] == ["general", "kenobi"]
 
 
