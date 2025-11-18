@@ -92,7 +92,7 @@ class InputManagerTestCase(unittest.TestCase):
         text = "line1\nline2\nline3"
         path = self._create_temp_file(text, "utf-8")
 
-        result = InputManager._read_file(path)
+        result = self.input_manager._read_file(path)
         self.assertEqual(result, "line1 line2 line3")
 
         os.remove(path)
