@@ -7,9 +7,9 @@ from src.ntlk_tokenizer import NtlkTokenizer
 
 
 class InputManager:
-    def __init__(self, encoding='utf-8'):
+    def __init__(self, encoding='utf-8', language='english'):
         self.encoding = encoding
-        self.tokenizer = NtlkTokenizer()
+        self.tokenizer = NtlkTokenizer(language)
 
     def read_files(self, directory_path: str) -> Dict[str, str]:
         contents = {}
