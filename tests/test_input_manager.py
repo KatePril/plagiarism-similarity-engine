@@ -63,7 +63,7 @@ class InputManagerTestCase(unittest.TestCase):
         text = "Hello UTF-8 Привіт"
         path = self._create_temp_file(text, "utf-8")
 
-        result = InputManager._read_file(path)
+        result = self.input_manager._read_file(path)
         self.assertEqual(result, text.replace("\n", "").replace("\r", ""))
 
         os.remove(path)
@@ -71,18 +71,20 @@ class InputManagerTestCase(unittest.TestCase):
     def test_read_utf16_file(self):
         text = "Hello UTF-16 こんにちは"
         path = self._create_temp_file(text, "utf-16")
+        input_manager = InputManager("utf-16")
 
-        with self.assertRaises(UnicodeDecodeError):
-            InputManager._read_file(path)
+        result = input_manager._read_file(path)
+        self.assertEqual(result, text.replace("\n", "").replace("\r", ""))
 
         os.remove(path)
 
     def test_read_latin1_file(self):
         text = "Café crème - latin1"
         path = self._create_temp_file(text, "latin-1")
+        input_manager = InputManager("latin-1")
 
-        with self.assertRaises(UnicodeDecodeError):
-            InputManager._read_file(path)
+        result = input_manager._read_file(path)
+        self.assertEqual(result, text.replace("\n", "").replace("\r", ""))
 
         os.remove(path)
 
