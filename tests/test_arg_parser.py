@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import patch
 import sys
 
-from main import parse_arg
+from src.main import parse_arg
 
 
 class TestParseArg(unittest.TestCase):
