@@ -1,6 +1,7 @@
 import unittest
 
 from ngram_base_test_case import NgramBaseTestCase
+from src.ngrams_generator import NGramsGenerator
 
 
 class TestNGramsGenerator(NgramBaseTestCase):
