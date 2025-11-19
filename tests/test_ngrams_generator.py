@@ -1,14 +1,9 @@
 import unittest
 
-from src.ngrams_generator import NGramsGenerator
+from ngram_base_test_case import NgramBaseTestCase
 
 
-class TestNGramsGenerator(unittest.TestCase):
-
-    def setUp(self):
-        self.bigram_gen = NGramsGenerator(n=2)
-        self.trigram_gen = NGramsGenerator(n=3)
-        self.unigram_gen = NGramsGenerator(n=1)
+class TestNGramsGenerator(NgramBaseTestCase):
 
     def test_generate_ngrams_bigrams(self):
         tokens = ['the', 'quick', 'brown', 'fox']
