@@ -2,6 +2,7 @@ import argparse
 
 from src.input_manager import InputManager
 from src.ngrams_generator import NGramsGenerator
+from src.min_hash_generator import MinHashGenerator
 
 
 def parse_arg():
@@ -19,3 +20,5 @@ if __name__ == '__main__':
     files_tokens = input_manager.read_files(args.file_directory)
     ngrams_generator = NGramsGenerator(3)
     ngrams = ngrams_generator.generate_ngrams_for_docs(files_tokens)
+    min_hash_generator = MinHashGenerator()
+    min_hash = min_hash_generator.generate_minhashes(ngrams)
