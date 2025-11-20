@@ -23,7 +23,7 @@ class TestMinHashGenerator(unittest.TestCase):
     def test_generate_minhashes_single_doc(self):
         generator = MinHashGenerator(num_premutations=128, seed=42)
         docs = {
-            "doc1": ["ngram1", "ngram2", "ngram3"]
+            "doc1": [{"ngram1": 0.33}, {"ngram2": 0.33}, {"ngram3": 0.33}]
         }
         result = generator.generate_minhashes(docs)
 
@@ -34,9 +34,9 @@ class TestMinHashGenerator(unittest.TestCase):
     def test_generate_minhashes_multiple_docs(self):
         generator = MinHashGenerator(num_premutations=128, seed=42)
         docs = {
-            "doc1": ["ngram1", "ngram2"],
-            "doc2": ["ngram3", "ngram4"],
-            "doc3": ["ngram5"]
+            "doc1": [{"ngram1": 0.5}, {"ngram2": 0.5}],
+            "doc2": [{"ngram3": 0.5}, {"ngram4": 0.5}],
+            "doc3": [{"ngram5": 1.0}]
         }
         result = generator.generate_minhashes(docs)
 
@@ -50,7 +50,7 @@ class TestMinHashGenerator(unittest.TestCase):
     def test_generate_minhashes_empty_ngram_list(self):
         generator = MinHashGenerator(num_premutations=128, seed=42)
         docs = {
-            "doc1": []
+            "doc1": [{}]
         }
         result = generator.generate_minhashes(docs)
 
@@ -65,8 +65,8 @@ class TestMinHashGenerator(unittest.TestCase):
 
         generator = MinHashGenerator(num_premutations=64, seed=100)
         docs = {
-            "doc1": ["ngram1", "ngram2"],
-            "doc2": ["ngram3"]
+            "doc1": [{"ngram1": 0.5}, {"ngram2": 0.5}],
+            "doc2": [{"ngram3": 1.0}]
         }
         result = generator.generate_minhashes(docs)
 
@@ -80,7 +80,7 @@ class TestMinHashGenerator(unittest.TestCase):
 
         generator = MinHashGenerator(num_premutations=128, seed=42)
         docs = {
-            "doc1": ["ngram1", "ngram2", "ngram3"]
+            "doc1": [{"ngram1": 0.33}, {"ngram2": 0.33}, {"ngram3": 0.33}]
         }
         result = generator.generate_minhashes(docs)
 
@@ -95,8 +95,8 @@ class TestMinHashGenerator(unittest.TestCase):
 
         generator = MinHashGenerator(num_premutations=128, seed=42)
         docs = {
-            "doc1": ["ngram1", "ngram2"],
-            "doc2": ["ngram3", "ngram4", "ngram5"]
+            "doc1": [{"ngram1": 0.5}, {"ngram2": 0.5}],
+            "doc2": [{"ngram3": 0.33}, {"ngram4": 0.33}, {"ngram5": 0.33}]
         }
         result = generator.generate_minhashes(docs)
 
@@ -106,9 +106,9 @@ class TestMinHashGenerator(unittest.TestCase):
     def test_generate_minhashes_returns_correct_keys(self):
         generator = MinHashGenerator(num_premutations=128, seed=42)
         docs = {
-            "document_a": ["ngram1"],
-            "document_b": ["ngram2"],
-            "document_c": ["ngram3"]
+            "document_a": [{"ngram1": 1.0}],
+            "document_b": [{"ngram2": 1.0}],
+            "document_c": [{"ngram3": 1.0}]
         }
         result = generator.generate_minhashes(docs)
 
@@ -116,7 +116,7 @@ class TestMinHashGenerator(unittest.TestCase):
 
     def test_generate_minhashes_deterministic_with_same_seed(self):
         docs = {
-            "doc1": ["ngram1", "ngram2", "ngram3"]
+            "doc1": [{"ngram1": 0.33}, {"ngram2": 0.33}, {"ngram3": 0.33}]
         }
 
         generator1 = MinHashGenerator(num_premutations=128, seed=42)
@@ -133,7 +133,7 @@ class TestMinHashGenerator(unittest.TestCase):
 
     def test_generate_minhashes_different_with_different_seed(self):
         docs = {
-            "doc1": ["ngram1", "ngram2", "ngram3"]
+            "doc1": [{"ngram1": 0.33}, {"ngram2": 0.33}, {"ngram3": 0.33}]
         }
 
         generator1 = MinHashGenerator(num_premutations=128, seed=42)
@@ -153,7 +153,7 @@ class TestMinHashGenerator(unittest.TestCase):
     def test_generate_minhashes_with_various_ngram_types(self):
         generator = MinHashGenerator(num_premutations=128, seed=42)
         docs = {
-            "doc1": ["string_ngram", 123, (1, 2), "another_ngram"]
+            "doc1": [{"string_ngram": 0.2}, {123: 0.2}, {(1, 2): 0.2}, {"another_ngram": 0.2}]
         }
         result = generator.generate_minhashes(docs)
 
@@ -163,10 +163,10 @@ class TestMinHashGenerator(unittest.TestCase):
     def test_generate_minhashes_preserves_doc_keys_with_special_chars(self):
         generator = MinHashGenerator(num_premutations=128, seed=42)
         docs = {
-            "doc-1": ["ngram1"],
-            "doc_2": ["ngram2"],
-            "doc.3": ["ngram3"],
-            "doc 4": ["ngram4"]
+            "doc-1": [{"ngram1": 1.0}],
+            "doc_2": [{"ngram2": 1.0}],
+            "doc.3": [{"ngram3": 1.0}],
+            "doc 4": [{"ngram4": 1.0}]
         }
         result = generator.generate_minhashes(docs)
 
@@ -175,7 +175,7 @@ class TestMinHashGenerator(unittest.TestCase):
     def test_generate_minhashes_num_permutations_propagated(self):
         generator = MinHashGenerator(num_premutations=64, seed=42)
         docs = {
-            "doc1": ["ngram1", "ngram2"]
+            "doc1": [{"ngram1": 0.5}, {"ngram2": 0.5}]
         }
         result = generator.generate_minhashes(docs)
 
@@ -184,7 +184,7 @@ class TestMinHashGenerator(unittest.TestCase):
     def test_generate_minhashes_seed_propagated(self):
         generator = MinHashGenerator(num_premutations=128, seed=999)
         docs = {
-            "doc1": ["ngram1", "ngram2"]
+            "doc1": [{"ngram1": 0.5}, {"ngram2": 0.5}]
         }
         result = generator.generate_minhashes(docs)
 
@@ -192,7 +192,7 @@ class TestMinHashGenerator(unittest.TestCase):
 
     def test_generate_minhashes_large_number_of_docs(self):
         generator = MinHashGenerator(num_premutations=128, seed=42)
-        docs = {f"doc{i}": [f"ngram{i}"] for i in range(1000)}
+        docs = {f"doc{i}": [{f"ngram{i}": 1.0}] for i in range(1000)}
         result = generator.generate_minhashes(docs)
 
         self.assertEqual(len(result), 1000)
@@ -203,7 +203,7 @@ class TestMinHashGenerator(unittest.TestCase):
     def test_generate_minhashes_duplicate_ngrams_in_doc(self):
         generator = MinHashGenerator(num_premutations=128, seed=42)
         docs = {
-            "doc1": ["ngram1", "ngram2", "ngram1", "ngram2", "ngram1"]
+            "doc1": [{"ngram1": 0.6}, {"ngram2": 0.4}, {"ngram1": 0.6}, {"ngram2": 0.4}, {"ngram1": 0.6}]
         }
         result = generator.generate_minhashes(docs)
 
