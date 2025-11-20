@@ -1,5 +1,8 @@
 import argparse
+
 from src.input_manager import InputManager
+from src.ngrams_generator import NGramsGenerator
+
 
 def parse_arg():
     parser = argparse.ArgumentParser()
@@ -14,3 +17,5 @@ if __name__ == '__main__':
     args = parse_arg()
     input_manager = InputManager(encoding=args.encoding, language=args.language)
     files_tokens = input_manager.read_files(args.file_directory)
+    ngrams_generator = NGramsGenerator(3)
+    ngrams = ngrams_generator.generate_ngrams_for_docs(files_tokens)
