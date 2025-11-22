@@ -1,14 +1,15 @@
 import hashlib
+from typing import Dict, Tuple
 
 import numpy as np
 
 
 class MinHashGenerator:
-    def __init__(self, num_premutations=128, seed=42):
-        self.num_premutations = num_premutations
+    def __init__(self, num_permutations: int = 128, seed: int = 42):
+        self.num_premutations = num_permutations
         self.seed = seed
 
-    def generate_minhashes(self, docs):
+    def generate_minhashes(self, docs: Dict[str, Tuple[Dict[str, float]]]) -> Dict[str, 'MinHash']:
         min_hashes_dict = {}
         for doc, ngrams in docs.items():
             min_hash = MinHash(self.num_premutations, seed=self.seed)
@@ -21,7 +22,7 @@ class MinHashGenerator:
 
 class MinHash:
 
-    def __init__(self, num_permutations=128, seed=42):
+    def __init__(self, num_permutations: int = 128, seed: int = 42):
         self.num_permutations = num_permutations
         self.seed = seed
         self._rng = np.random.default_rng(self.seed)
@@ -31,16 +32,16 @@ class MinHash:
 
         self.signature = np.full(num_permutations, np.iinfo(np.uint64).max, dtype=np.uint64)
 
-    def update(self, element):
+    def update(self, element: str):
         element_hash = self.get_hash(element)
         h_vals = (self._a * element_hash + self._b)
         self.signature = np.minimum(self.signature, h_vals)
 
     @staticmethod
-    def get_hash(x):
+    def get_hash(x: str):
         return np.uint64(int(hashlib.blake2b(str(x).encode(), digest_size=8).hexdigest(), 16))
 
-    def jaccard_similarity(self, other):
+    def jaccard_similarity(self, other: 'MinHash'):
         if self.num_permutations != other.num_permutations:
             raise ValueError("num_permutations of MinHashes must match")
 
