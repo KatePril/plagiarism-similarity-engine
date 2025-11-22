@@ -7,7 +7,7 @@ from src.ntlk_tokenizer import NtlkTokenizer
 
 
 class InputManager:
-    def __init__(self, encoding='utf-8', language='english'):
+    def __init__(self, encoding: str = 'utf-8', language: str =' english'):
         self.encoding = encoding
         self.tokenizer = NtlkTokenizer(language)
 
