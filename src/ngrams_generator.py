@@ -1,11 +1,12 @@
 from collections import Counter
+from typing import Dict, Tuple, List
 
 
 class NGramsGenerator:
     def __init__(self, n):
         self.n = n
 
-    def generate_ngrams_for_docs(self, documents):
+    def generate_ngrams_for_docs(self, documents: Dict[str, List[str]]) -> Dict[str, Dict[Tuple[str, ...], float]]:
         ngrams_dict = {}
         for doc, tokens in documents.items():
             ngrams = self._generate_ngrams(tokens)
@@ -13,18 +14,18 @@ class NGramsGenerator:
             ngrams_dict[doc] = self._apply_laplace_smoothing(ngrams, vocab_size)
         return ngrams_dict
 
-    def _generate_ngrams(self, tokens):
+    def _generate_ngrams(self, tokens: List[str]) -> List[Tuple[str, ...]]:
         ngrams = [
             tuple(tokens[i:i + self.n]) for i in range(len(tokens) - self.n + 1)
         ]
         return ngrams
 
     @staticmethod
-    def _get_vocab_size(tokens):
+    def _get_vocab_size(tokens: List[str]) -> int:
         return len(set(tokens))
 
     @staticmethod
-    def _apply_laplace_smoothing(ngrams, vocab_size):
+    def _apply_laplace_smoothing(ngrams: List[Tuple[str, ...]], vocab_size: int) -> Dict[Tuple[str, ...], float]:
         ngrams_counts = Counter(ngrams)
         smoothed_ngrams = {
             ngram: (count + 1) / (len(ngrams) + vocab_size) for ngram, count in ngrams_counts.items()
