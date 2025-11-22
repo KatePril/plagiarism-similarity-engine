@@ -9,7 +9,7 @@ class MinHashGenerator:
         self.num_premutations = num_permutations
         self.seed = seed
 
-    def generate_minhashes(self, docs: Dict[str, Tuple[Dict[str, float]]]) -> Dict[str, 'MinHash']:
+    def generate_minhashes(self, docs) -> Dict[str, 'MinHash']:
         min_hashes_dict = {}
         for doc, ngrams in docs.items():
             min_hash = MinHash(self.num_premutations, seed=self.seed)

@@ -1,6 +1,6 @@
 import unittest
 from src.min_hash_generator import MinHash
-from src.locality_sensitive_hashing import LSH, LSH_generator
+from src.locality_sensitive_hashing import LSH, LshGenerator
 
 
 class TestLSHGenerator(unittest.TestCase):
@@ -13,7 +13,7 @@ class TestLSHGenerator(unittest.TestCase):
         return mh
 
     def test_insert_and_query_workflow(self):
-        generator = LSH_generator(num_bands=16, num_rows=8)
+        generator = LshGenerator(num_bands=16, num_rows=8)
         docs = {
             "doc1": self.create_minhash(["machine", "learning", "algorithms"], seed=42),
             "doc2": self.create_minhash(["machine", "learning", "models"], seed=42),
@@ -31,7 +31,7 @@ class TestLSHGenerator(unittest.TestCase):
             self.assertIn(candidate, docs.keys())
 
     def test_empty_minhash(self):
-        generator = LSH_generator(num_bands=16, num_rows=8)
+        generator = LshGenerator(num_bands=16, num_rows=8)
         docs = {
             "empty_doc": MinHash(num_permutations=128)
         }
@@ -43,7 +43,7 @@ class TestLSHGenerator(unittest.TestCase):
         self.assertIn("empty_doc", candidates)
 
     def test_single_element_minhash(self):
-        generator = LSH_generator(num_bands=16, num_rows=8)
+        generator = LshGenerator(num_bands=16, num_rows=8)
         docs = {
             "doc1": self.create_minhash(["single"])
         }
@@ -55,7 +55,7 @@ class TestLSHGenerator(unittest.TestCase):
         self.assertIn("doc1", candidates)
 
     def test_large_number_of_documents(self):
-        generator = LSH_generator(num_bands=16, num_rows=8)
+        generator = LshGenerator(num_bands=16, num_rows=8)
         num_docs = 100
         docs = {}
         for i in range(num_docs):
@@ -70,7 +70,7 @@ class TestLSHGenerator(unittest.TestCase):
         self.assertIn("doc_50", candidates)
 
     def test_high_similarity_documents(self):
-        generator = LSH_generator(num_bands=16, num_rows=8)
+        generator = LshGenerator(num_bands=16, num_rows=8)
         seed = 42
         docs = {
             "doc1": self.create_minhash(["a", "b", "c", "d", "e"], seed=seed),
@@ -89,7 +89,7 @@ class TestLSHGenerator(unittest.TestCase):
                 self.assertAlmostEqual(similarity, 1.0, places=2)
 
     def test_low_similarity_documents(self):
-        generator = LSH_generator(num_bands=16, num_rows=8)
+        generator = LshGenerator(num_bands=16, num_rows=8)
         docs = {
             "doc1": self.create_minhash(["aaa", "bbb", "ccc"], seed=1),
             "doc2": self.create_minhash(["xxx", "yyy", "zzz"], seed=2),
@@ -109,7 +109,7 @@ class TestLSHGenerator(unittest.TestCase):
         ]
 
         for num_bands, num_rows in configs:
-            generator = LSH_generator(num_bands=num_bands, num_rows=num_rows)
+            generator = LshGenerator(num_bands=num_bands, num_rows=num_rows)
             docs = {
                 "doc1": self.create_minhash(["test", "document"], seed=42),
                 "doc2": self.create_minhash(["another", "doc"], seed=42)
@@ -131,7 +131,7 @@ class TestLSHGenerator(unittest.TestCase):
             "doc3": self.create_minhash(["word5", "word6"], seed=42)
         }
 
-        generator = LSH_generator(num_bands=16, num_rows=8)
+        generator = LshGenerator(num_bands=16, num_rows=8)
         lsh1 = generator.generate_lsh(docs)
         lsh2 = LSH(num_bands=16, num_rows=8)
         for doc_id, minhash in docs.items():
@@ -146,7 +146,7 @@ class TestLSHGenerator(unittest.TestCase):
         self.assertEqual(candidates1, candidates2)
 
     def test_empty_document_collection(self):
-        generator = LSH_generator(num_bands=16, num_rows=8)
+        generator = LshGenerator(num_bands=16, num_rows=8)
         docs = {}
         lsh = generator.generate_lsh(docs)
         query_mh = self.create_minhash(["test"])
@@ -156,7 +156,7 @@ class TestLSHGenerator(unittest.TestCase):
         self.assertEqual(len(candidates), 0)
 
     def test_single_document_collection(self):
-        generator = LSH_generator(num_bands=16, num_rows=8)
+        generator = LshGenerator(num_bands=16, num_rows=8)
         docs = {
             "only_doc": self.create_minhash(["single", "document"], seed=42)
         }
@@ -168,7 +168,7 @@ class TestLSHGenerator(unittest.TestCase):
         self.assertIn("only_doc", candidates)
 
     def test_realistic_document_collection(self):
-        generator = LSH_generator(num_bands=16, num_rows=8)
+        generator = LshGenerator(num_bands=16, num_rows=8)
         docs = {
             "article1": self.create_minhash(
                 ["machine", "learning", "artificial", "intelligence", "neural", "network"],
