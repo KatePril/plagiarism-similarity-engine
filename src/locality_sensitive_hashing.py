@@ -4,6 +4,8 @@ from typing import Dict, List, Set, Tuple
 
 import numpy as np
 
+from src.min_hash_generator import MinHash
+
 class LSH_generator:
     def __init__(self, num_bands: int, num_rows: int):
         self.num_bands = num_bands
