@@ -6,7 +6,7 @@ class NGramsGenerator:
     def __init__(self, n):
         self.n = n
 
-    def generate_ngrams_for_docs(self, documents: Dict[str, List[str]]) -> Dict[str, Dict[Tuple[str, ...], float]]:
+    def generate_ngrams_for_docs(self, documents: Dict[str, List[str]]):
         ngrams_dict = {}
         for doc, tokens in documents.items():
             ngrams = self._generate_ngrams(tokens)

@@ -1,17 +1,17 @@
 import os
 import string
 import re
-from typing import Dict
+from typing import Dict, List
 
 from src.ntlk_tokenizer import NtlkTokenizer
 
 
 class InputManager:
-    def __init__(self, encoding: str = 'utf-8'):
+    def __init__(self, encoding: str = 'utf-8', language: str ='english'):
         self.encoding = encoding
-        self.tokenizer = NtlkTokenizer()
+        self.tokenizer = NtlkTokenizer(language)
 
-    def read_files(self, directory_path: str) -> Dict[str, str]:
+    def read_files(self, directory_path: str) -> Dict[str, List[str]]:
         contents = {}
         for file in os.listdir(directory_path):
             if file.endswith(".txt"):
