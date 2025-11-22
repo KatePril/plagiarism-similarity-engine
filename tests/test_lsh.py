@@ -97,11 +97,10 @@ class TestLSH(unittest.TestCase):
 
     def test_query_identical_document(self):
         mh = self.create_minhash(["hello", "world"], seed=42)
-        self.lsh.insert("doc1", mh)
-
         query_mh = self.create_minhash(["hello", "world"], seed=42)
         candidates = self.lsh.query(query_mh)
 
+        self.lsh.insert("doc1", mh)
         self.assertIn("doc1", candidates)
 
     def test_query_similar_documents(self):
@@ -132,11 +131,10 @@ class TestLSH(unittest.TestCase):
 
     def test_query_returns_set(self):
         mh1 = self.create_minhash(["test"])
-        self.lsh.insert("doc1", mh1)
-
         query_mh = self.create_minhash(["test"])
         candidates = self.lsh.query(query_mh)
 
+        self.lsh.insert("doc1", mh1)
         self.assertIsInstance(candidates, set)
 
     def test_query_does_not_modify_index(self):
@@ -144,7 +142,6 @@ class TestLSH(unittest.TestCase):
         self.lsh.insert("doc1", mh1)
 
         initial_sig_count = len(self.lsh.signatures)
-
         query_mh = self.create_minhash(["query"])
         self.lsh.query(query_mh)
 
