@@ -97,10 +97,10 @@ class TestLSH(unittest.TestCase):
 
     def test_query_identical_document(self):
         mh = self.create_minhash(["hello", "world"], seed=42)
+        self.lsh.insert("doc1", mh)
         query_mh = self.create_minhash(["hello", "world"], seed=42)
         candidates = self.lsh.query(query_mh)
 
-        self.lsh.insert("doc1", mh)
         self.assertIn("doc1", candidates)
 
     def test_query_similar_documents(self):
