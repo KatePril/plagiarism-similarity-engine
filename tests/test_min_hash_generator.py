@@ -7,12 +7,12 @@ class TestMinHashGenerator(unittest.TestCase):
 
     def test_init_default_parameters(self):
         generator = MinHashGenerator()
-        self.assertEqual(generator.num_premutations, 128)
+        self.assertEqual(generator.num_permutations, 128)
         self.assertEqual(generator.seed, 42)
 
     def test_init_custom_parameters(self):
         generator = MinHashGenerator(num_permutations=64, seed=123)
-        self.assertEqual(generator.num_premutations, 64)
+        self.assertEqual(generator.num_permutations, 64)
         self.assertEqual(generator.seed, 123)
 
     def test_generate_minhashes_empty_docs(self):

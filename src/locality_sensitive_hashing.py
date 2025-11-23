@@ -74,20 +74,17 @@ class LSH:
         if doc_id not in self.signatures:
             raise ValueError(f"Document {doc_id} not found in index")
 
-        query_minhash = type('MinHash', (), {
-            'signature': self.signatures[doc_id],
-            'num_permutations': self.num_permutations
-        })()
+        query_signature = self.signatures[doc_id]
+        query_minhash = MinHash(num_permutations=self.num_permutations)
+        query_minhash.signature = query_signature
 
         candidates = self.query(query_minhash)
         candidates.discard(doc_id)
 
         results = []
         for candidate_id in candidates:
-            candidate_minhash = type('MinHash', (), {
-                'signature': self.signatures[candidate_id],
-                'num_permutations': self.num_permutations
-            })()
+            candidate_minhash = MinHash(num_permutations=self.num_permutations)
+            candidate_minhash.signature = self.signatures[candidate_id]
 
             similarity = query_minhash.jaccard_similarity(candidate_minhash)
 

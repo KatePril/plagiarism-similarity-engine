@@ -6,13 +6,13 @@ import numpy as np
 
 class MinHashGenerator:
     def __init__(self, num_permutations: int = 128, seed: int = 42):
-        self.num_premutations = num_permutations
+        self.num_permutations = num_permutations
         self.seed = seed
 
     def generate_minhashes(self, docs) -> Dict[str, 'MinHash']:
         min_hashes_dict = {}
         for doc, ngrams in docs.items():
-            min_hash = MinHash(self.num_premutations, seed=self.seed)
+            min_hash = MinHash(self.num_permutations, seed=self.seed)
             for weighted_ngram in ngrams:
                 for ngram, weight in weighted_ngram.items():
                     min_hash.update(ngram)
