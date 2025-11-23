@@ -35,6 +35,9 @@ class SimilarityEvaluator:
 
     @staticmethod
     def _clean_result(result: List[SimilarPair]) -> List[SimilarPair]:
-        result_deduplicated = list(set(result))
-        result_deduplicated.sort(key=lambda x: x.similarity_score, reverse=True)
-        return result_deduplicated
+        seen = []
+        for pair in result:
+            if pair not in seen:
+                seen.append(pair)
+        seen.sort(key=lambda x: x.similarity_score, reverse=True)
+        return seen
