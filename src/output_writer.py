@@ -4,8 +4,11 @@ from typing import List
 from src.similarity_evaluator import SimilarPair
 
 class OutputWriter:
-    def __init__(self):
-        self.header = ["document1", "document2", "similarity_score"]
+    def __init__(self, header=None):
+        if header:
+            self.header = header
+        else:
+            self.header = ["document1", "document2", "similarity_score"]
 
     def write_results(self, output_file: str, results: List['SimilarPair']):
         data = []
