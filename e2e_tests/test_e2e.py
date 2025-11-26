@@ -6,7 +6,7 @@ import csv
 from typing import Dict
 
 
-MAIN_SCRIPT_PATH = "../src/main.py"
+MAIN_SCRIPT_PATH = "/src/main.py"
 PYTHON_EXECUTABLE = "python3"
 EXPECTED_CSV_HEADERS = ["document1", "document2", "similarity_score"]
 
