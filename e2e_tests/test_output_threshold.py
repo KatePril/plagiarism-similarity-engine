@@ -20,7 +20,6 @@ def run_pipeline_successfully_with_provided_threshold_output(files_content, outp
             reader = csv.reader(csvfile)
             header = next(reader)
             rows = list(reader)
-        print(len(rows))
         assert header == EXPECTED_CSV_HEADERS
         assert len(rows) >= 1
 
