@@ -6,7 +6,7 @@ import csv
 from typing import Dict
 
 
-MAIN_SCRIPT_PATH = "src/main.py"
+MAIN_SCRIPT_PATH = "src.main"
 PYTHON_EXECUTABLE = "python3"
 EXPECTED_CSV_HEADERS = ["document1", "document2", "similarity_score"]
 
@@ -14,6 +14,7 @@ def run_pipeline(input_dir: str, output_file: str, encoding: str = None,
                  threshold: float = None) -> subprocess.CompletedProcess:
     command = [
         PYTHON_EXECUTABLE,
+        "-m",
         MAIN_SCRIPT_PATH,
         "--input-dir", input_dir,
         "--output-file", output_file
