@@ -6,12 +6,11 @@ class NGramsGenerator:
     def __init__(self, n):
         self.n = n
 
-    def generate_ngrams_for_docs(self, documents: Dict[str, List[str]]):
+    def generate_ngrams_for_docs(self, documents: Dict[str, List[str]]) -> Dict[str, List[Tuple[str, ...]]]:
         ngrams_dict = {}
         for doc, tokens in documents.items():
             ngrams = self._generate_ngrams(tokens)
-            vocab_size = self._get_vocab_size(tokens)
-            ngrams_dict[doc] = self._apply_laplace_smoothing(ngrams, vocab_size)
+            ngrams_dict[doc] = ngrams
         return ngrams_dict
 
     def _generate_ngrams(self, tokens: List[str]) -> List[Tuple[str, ...]]:
