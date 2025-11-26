@@ -21,7 +21,7 @@ def parse_arg():
 if __name__ == '__main__':
     args = parse_arg()
     input_manager = InputManager(encoding=args.encoding, language=args.language)
-    files_tokens = input_manager.read_files(args.file_directory)
+    files_tokens = input_manager.read_files(args.input)
     filenames = list(files_tokens.keys())
 
     ngrams_generator = NGramsGenerator(3)
