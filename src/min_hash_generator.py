@@ -14,7 +14,7 @@ class MinHashGenerator:
         for doc, ngrams in docs.items():
             min_hash = MinHash(self.num_permutations, seed=self.seed)
             for weighted_ngram in ngrams:
-                for ngram, weight in weighted_ngram.items():
+                for ngram, weight in weighted_ngram:
                     min_hash.update(ngram)
             min_hashes_dict[doc] = min_hash
         return min_hashes_dict
