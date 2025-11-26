@@ -14,12 +14,11 @@ class TestGenerateNgramsForDocs(NgramBaseTestCase):
         self.assertEqual(len(result), 1)
         self.assertIn('doc1', result)
 
-        expected_ngrams = {('the', 'quick'), ('quick', 'brown'), ('brown', 'fox')}
-        self.assertEqual(set(result['doc1'].keys()), expected_ngrams)
+        expected_ngrams = [('the', 'quick'), ('quick', 'brown'), ('brown', 'fox')]
+        self.assertEqual(len(result['doc1']), 3)
 
-        for prob in result['doc1'].values():
-            self.assertGreater(prob, 0)
-            self.assertLessEqual(prob, 1)
+        for i in range(len(result['doc1'])):
+            self.assertEqual(result['doc1'][i], expected_ngrams[i])
 
     def test_generate_ngrams_for_docs_multiple_documents(self):
         documents = {
@@ -34,9 +33,9 @@ class TestGenerateNgramsForDocs(NgramBaseTestCase):
         self.assertIn('doc2', result)
         self.assertIn('doc3', result)
 
-        self.assertEqual(set(result['doc1'].keys()), {('the', 'cat'), ('cat', 'sat')})
-        self.assertEqual(set(result['doc2'].keys()), {('the', 'dog'), ('dog', 'ran')})
-        self.assertEqual(set(result['doc3'].keys()), {('a', 'bird'), ('bird', 'flew')})
+        self.assertEqual(result['doc1'], [('the', 'cat'), ('cat', 'sat')])
+        self.assertEqual(result['doc2'], [('the', 'dog'), ('dog', 'ran')])
+        self.assertEqual(result['doc3'], [('a', 'bird'), ('bird', 'flew')])
 
     def test_generate_ngrams_for_docs_empty_documents(self):
         documents = {}
@@ -52,7 +51,7 @@ class TestGenerateNgramsForDocs(NgramBaseTestCase):
 
         self.assertEqual(len(result), 1)
         self.assertIn('doc1', result)
-        self.assertEqual(result['doc1'], {})
+        self.assertEqual(result['doc1'], [])
 
     def test_generate_ngrams_for_docs_insufficient_tokens(self):
         documents = {
@@ -61,8 +60,8 @@ class TestGenerateNgramsForDocs(NgramBaseTestCase):
         }
         result = self.bigram_gen.generate_ngrams_for_docs(documents)
 
-        self.assertEqual(result['doc1'], {})
-        self.assertEqual(result['doc2'], {})
+        self.assertEqual(result['doc1'], [])
+        self.assertEqual(result['doc2'], [])
 
     def test_generate_ngrams_for_docs_exact_n_tokens(self):
         documents = {
@@ -83,12 +82,9 @@ class TestGenerateNgramsForDocs(NgramBaseTestCase):
         result = self.bigram_gen.generate_ngrams_for_docs(documents)
 
         ngrams = result['doc1']
-        self.assertEqual(len(ngrams), 2)
-
-        # ('the', 'cat'): (2+1)/(3+2) = 3/5 = 0.6
-        # ('cat', 'the'): (1+1)/(3+2) = 2/5 = 0.4
-        self.assertAlmostEqual(ngrams[('the', 'cat')], 0.6)
-        self.assertAlmostEqual(ngrams[('cat', 'the')], 0.4)
+        self.assertEqual(len(ngrams), 3)
+        self.assertEqual(len([n for n in ngrams if n == ('the', 'cat')]), 2)
+        self.assertEqual(len([n for n in ngrams if n == ('cat', 'the')]), 1)
 
     def test_generate_ngrams_for_docs_trigrams(self):
         documents = {
@@ -96,12 +92,14 @@ class TestGenerateNgramsForDocs(NgramBaseTestCase):
         }
         result = self.trigram_gen.generate_ngrams_for_docs(documents)
 
-        expected_trigrams = {
+        expected_trigrams = [
             ('the', 'quick', 'brown'),
             ('quick', 'brown', 'fox'),
             ('brown', 'fox', 'jumps')
-        }
-        self.assertEqual(set(result['doc1'].keys()), expected_trigrams)
+        ]
+        self.assertEqual(len(result), 1)
+        self.assertEqual(len(result['doc1']), 3)
+        self.assertEqual(result['doc1'], expected_trigrams)
 
     def test_generate_ngrams_for_docs_unigrams(self):
         documents = {
@@ -109,30 +107,25 @@ class TestGenerateNgramsForDocs(NgramBaseTestCase):
         }
         result = self.unigram_gen.generate_ngrams_for_docs(documents)
 
-        self.assertEqual(len(result['doc1']), 2)
+        self.assertEqual(len(result['doc1']), 3)
         self.assertIn(('hello',), result['doc1'])
         self.assertIn(('world',), result['doc1'])
 
-        # 'hello': (2+1)/(3+2) = 0.6
-        # 'world': (1+1)/(3+2) = 0.4
-        self.assertAlmostEqual(result['doc1'][('hello',)], 0.6)
-        self.assertAlmostEqual(result['doc1'][('world',)], 0.4)
-
     def test_generate_ngrams_for_docs_different_vocab_sizes(self):
         documents = {
-            'doc1': ['a', 'b', 'a'],  # vocab_size = 2
-            'doc2': ['x', 'y', 'z', 'x']  # vocab_size = 3
+            'doc1': ['a', 'b', 'a'],
+            'doc2': ['x', 'y', 'z', 'x']
         }
         result = self.bigram_gen.generate_ngrams_for_docs(documents)
 
-        # ('a', 'b'): (1+1)/(2+2) = 0.5
-        # ('b', 'a'): (1+1)/(2+2) = 0.5
-        self.assertAlmostEqual(result['doc1'][('a', 'b')], 0.5)
-        self.assertAlmostEqual(result['doc1'][('b', 'a')], 0.5)
+        self.assertEqual(len(result['doc1']), 2)
+        self.assertIn(('a', 'b'), result['doc1'])
+        self.assertIn(('b', 'a'), result['doc1'])
 
-        # Each bigram appears once: (1+1)/(3+3) = 1/3
-        for prob in result['doc2'].values():
-            self.assertAlmostEqual(prob, 1 / 3)
+        self.assertEqual(len(result['doc2']), 3)
+        self.assertIn(('x', 'y'), result['doc2'])
+        self.assertIn(('y', 'z'), result['doc2'])
+        self.assertIn(('z', 'x'), result['doc2'])
 
     def test_generate_ngrams_for_docs_preserves_document_keys(self):
         documents = {
@@ -150,11 +143,12 @@ class TestGenerateNgramsForDocs(NgramBaseTestCase):
         }
         result = self.bigram_gen.generate_ngrams_for_docs(documents)
 
-        for prob in result['doc1'].values():
-            self.assertGreater(prob, 0)
-
-        total_prob = sum(result['doc1'].values())
-        self.assertLessEqual(total_prob, 1.0)
+        self.assertEqual(len(result['doc1']), 5)
+        self.assertIn(('the', 'cat'), result['doc1'])
+        self.assertIn(('cat', 'sat'), result['doc1'])
+        self.assertIn(('sat', 'on'), result['doc1'])
+        self.assertIn(('on', 'the'), result['doc1'])
+        self.assertIn(('the', 'mat'), result['doc1'])
 
     def test_generate_ngrams_for_docs_mixed_document_sizes(self):
         documents = {
@@ -164,9 +158,9 @@ class TestGenerateNgramsForDocs(NgramBaseTestCase):
         }
         result = self.bigram_gen.generate_ngrams_for_docs(documents)
 
-        self.assertEqual(len(result['short']), 1)  # 1 bigram
-        self.assertEqual(len(result['medium']), 3)  # 3 bigrams
-        self.assertEqual(len(result['long']), 6)  # 6 bigrams
+        self.assertEqual(len(result['short']), 1)
+        self.assertEqual(len(result['medium']), 3)
+        self.assertEqual(len(result['long']), 6)
 
     def test_generate_ngrams_for_docs_independence(self):
         documents = {

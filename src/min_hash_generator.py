@@ -1,5 +1,5 @@
 import hashlib
-from typing import Dict, Tuple
+from typing import Dict, Tuple, List
 
 import numpy as np
 
@@ -9,13 +9,12 @@ class MinHashGenerator:
         self.num_permutations = num_permutations
         self.seed = seed
 
-    def generate_minhashes(self, docs) -> Dict[str, 'MinHash']:
+    def generate_minhashes(self, docs: Dict[str, List[Tuple[str, ...]]]) -> Dict[str, 'MinHash']:
         min_hashes_dict = {}
         for doc, ngrams in docs.items():
             min_hash = MinHash(self.num_permutations, seed=self.seed)
-            for weighted_ngram in ngrams:
-                for ngram, weight in weighted_ngram.items():
-                    min_hash.update(ngram)
+            for ngram in ngrams:
+                min_hash.update(ngram)
             min_hashes_dict[doc] = min_hash
         return min_hashes_dict
 
@@ -32,7 +31,7 @@ class MinHash:
 
         self.signature = np.full(num_permutations, np.iinfo(np.uint64).max, dtype=np.uint64)
 
-    def update(self, element: str):
+    def update(self, element: Tuple[str, ...]) -> None:
         element_hash = self.get_hash(element)
         h_vals = (self._a * element_hash + self._b)
         self.signature = np.minimum(self.signature, h_vals)

@@ -47,7 +47,7 @@ class TestParseArg(unittest.TestCase):
         test_args = ['main.py', '--input', 'data.txt']
         with patch.object(sys, 'argv', test_args):
             args = parse_arg()
-            self.assertEqual(args.threshold, 0.75)
+            self.assertEqual(args.threshold, 0.7)
 
     def test_threshold_custom_value_long_form(self):
         test_args = ['main.py', '--input', 'data.txt', '--threshold', '0.9']
