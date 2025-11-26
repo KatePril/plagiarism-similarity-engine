@@ -20,7 +20,7 @@ def run_pipeline_successfully_with_provided_threshold_output(files_content, outp
             reader = csv.reader(csvfile)
             header = next(reader)
             rows = list(reader)
-
+        print(len(rows))
         assert header == EXPECTED_CSV_HEADERS
         assert len(rows) >= 1
 
@@ -42,7 +42,7 @@ def run_pipeline_successfully_with_provided_threshold_output(files_content, outp
     finally:
         shutil.rmtree(temp_dir)
 
-def test_pipeline_runs_successfully_with_three_default_args_on_three_files():
+def test_pipeline_runs_successfully_with_provided_threshold_output_on_three_files():
     files_content = {
         "file_a.txt": "The quick brown fox jumps over the lazy dog in the meadow during sunset. "
                       "This classic pangram has been used in typography for decades to test fonts. "
@@ -58,3 +58,28 @@ def test_pipeline_runs_successfully_with_three_default_args_on_three_files():
                       "industries including healthcare, finance, and autonomous vehicle development."
     }
     run_pipeline_successfully_with_provided_threshold_output(files_content, "res.csv", 0.5)
+
+def test_pipeline_runs_successfully_with_provided_threshold_output_on_five_files():
+    files_content = {
+        "file_a.txt": "The quick brown fox jumps over the lazy dog in the meadow during sunset. "
+                      "This classic pangram has been used in typography for decades to test fonts. "
+                      "It contains every letter of the English alphabet at least once, making it "
+                      "invaluable for designers who need to preview how different typefaces appear.",
+        "file_b.txt": "The quick brown fox jumps over the lazy dog in the meadow during sunset."
+                      "This classic pangram has been used in typography for decades to test fonts."
+                      "It includes every letter of the English alphabet at least once, making it"
+                      "invaluable for designers who need to preview how different typefaces look.",
+        "file_c.txt": "Machine learning algorithms process vast amounts of data efficiently and accurately. "
+                      "Neural networks represent powerful computational tools that mimic human brain structure. "
+                      "Deep learning models have revolutionized artificial intelligence applications across "
+                      "industries including healthcare, finance, and autonomous vehicle development.",
+        "file_d.txt": "Machine learning algorithms analyze large quantities of data quickly and precisely."
+                      "Neural networks represent powerful computational tools that mimic human brain structure. "
+                      "Deep learning models have revolutionized artificial intelligence applications across "
+                      "industries including healthcare, finance, and autonomous vehicle development.",
+        "file_e.txt": "The quick brown fox jumps over the lazy dog in the meadow during sunset."
+                      "This classic pangram has been used in typography for decades to test fonts."
+                      "It includes every letter of the English alphabet at least once, making it"
+                      "invaluable for designers who need to preview how different typefaces appear."
+    }
+    run_pipeline_successfully_with_provided_threshold_output(files_content, "res.csv", 0.3)

@@ -106,7 +106,6 @@ class TestGenerateNgramsForDocs(NgramBaseTestCase):
             'doc1': ['hello', 'world', 'hello']
         }
         result = self.unigram_gen.generate_ngrams_for_docs(documents)
-        print(result)
 
         self.assertEqual(len(result['doc1']), 3)
         self.assertIn(('hello',), result['doc1'])
@@ -143,7 +142,6 @@ class TestGenerateNgramsForDocs(NgramBaseTestCase):
             'doc1': ['the', 'cat', 'sat', 'on', 'the', 'mat']
         }
         result = self.bigram_gen.generate_ngrams_for_docs(documents)
-        print(result)
 
         self.assertEqual(len(result['doc1']), 5)
         self.assertIn(('the', 'cat'), result['doc1'])

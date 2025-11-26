@@ -35,7 +35,7 @@ def run_pipeline_successfully_with_default_args(files_content):
     finally:
         shutil.rmtree(temp_dir)
 
-def test_pipeline_runs_successfully_with_three_default_args_on_three_files():
+def test_pipeline_runs_successfully_with_default_args_on_three_files():
     files_content = {
         "file_a.txt": "The quick brown fox jumps over the lazy dog in the meadow during sunset. "
                       "This classic pangram has been used in typography for decades to test fonts. "
@@ -52,7 +52,7 @@ def test_pipeline_runs_successfully_with_three_default_args_on_three_files():
     }
     run_pipeline_successfully_with_default_args(files_content)
 
-def test_pipeline_runs_successfully_with_three_default_args_on_five_files():
+def test_pipeline_runs_successfully_with_default_args_on_five_files():
     files_content = {
         "file_a.txt": "The quick brown fox jumps over the lazy dog in the meadow during sunset. "
                       "This classic pangram has been used in typography for decades to test fonts. "
