@@ -80,12 +80,12 @@ class TestMinHashGenerator(unittest.TestCase):
 
         generator = MinHashGenerator(num_permutations=128, seed=42)
         docs = {
-            "doc1": [{"ngram1": 0.33}, {"ngram2": 0.33}, {"ngram3": 0.33}]
+            "doc1": [('a', 'b'), ('b', 'c'), ('c', 'd')]
         }
         result = generator.generate_minhashes(docs)
 
         self.assertEqual(mock_minhash_instance.update.call_count, 3)
-        expected_calls = [call("ngram1"), call("ngram2"), call("ngram3")]
+        expected_calls = [call(('a', 'b')), call(('b', 'c')), call(('c', 'd'))]
         mock_minhash_instance.update.assert_has_calls(expected_calls, any_order=False)
 
     @patch('src.min_hash_generator.MinHash')
