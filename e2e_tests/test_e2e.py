@@ -37,7 +37,7 @@ def create_input_files(temp_dir: str, files: Dict[str, str], encoding: str = 'ut
 def test_pipeline_runs_successfully_for_small_files_csv():
     files_content = {
         "file_a.txt": "The quick brown fox jumps over the lazy dog.",
-        "file_b.txt": "A quick brown fox leaps over a lazy dog.",
+        "file_b.txt": "The quick brown fox jumps over the lazy cat.",
         "file_c.txt": "Completely different text content here."
     }
     temp_dir = tempfile.mkdtemp()
