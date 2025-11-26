@@ -12,7 +12,7 @@ def parse_arg():
     parser = argparse.ArgumentParser()
     parser.add_argument('--input', '-i', required=True, type=str)
     parser.add_argument('--output', '-o', default='report.csv', type=str)
-    parser.add_argument('--threshold', '-t', default=0.75, type=float)
+    parser.add_argument('--threshold', '-t', default=0.7, type=float)
     parser.add_argument('--encoding', '-e', default='utf-8', type=str)
     parser.add_argument('--language', '-l', default='english', type=str)
     return parser.parse_args()

@@ -36,9 +36,18 @@ def create_input_files(temp_dir: str, files: Dict[str, str], encoding: str = 'ut
 
 def test_pipeline_runs_successfully_for_small_files_csv():
     files_content = {
-        "file_a.txt": "The quick brown fox jumps over the lazy dog.",
-        "file_b.txt": "The quick brown fox jumps over the lazy cat.",
-        "file_c.txt": "Completely different text content here."
+        "file_a.txt": "The quick brown fox jumps over the lazy dog in the meadow during sunset. "
+            "This classic pangram has been used in typography for decades to test fonts. "
+            "It contains every letter of the English alphabet at least once, making it "
+            "invaluable for designers who need to preview how different typefaces appear.",
+        "file_b.txt": "The quick brown fox jumps over the lazy dog in the meadow during sunset. "
+            "This classic pangram has been used in typography for decades to test fonts. "
+            "It includes every letter of the English alphabet at least once, making it "
+            "invaluable for designers who need to preview how different typefaces look.",
+        "file_c.txt": "Machine learning algorithms process vast amounts of data efficiently and accurately. "
+            "Neural networks represent powerful computational tools that mimic human brain structure. "
+            "Deep learning models have revolutionized artificial intelligence applications across "
+            "industries including healthcare, finance, and autonomous vehicle development."
     }
     temp_dir = tempfile.mkdtemp()
     output_file = os.path.join(temp_dir, "results.csv")
