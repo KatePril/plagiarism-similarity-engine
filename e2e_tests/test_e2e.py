@@ -16,8 +16,8 @@ def run_pipeline(input_dir: str, output_file: str, encoding: str = None,
         PYTHON_EXECUTABLE,
         "-m",
         MAIN_SCRIPT_PATH,
-        "--input-dir", input_dir,
-        "--output-file", output_file
+        "--input", input_dir,
+        "--output", output_file
     ]
     if encoding:
         command.extend(["--encoding", encoding])
