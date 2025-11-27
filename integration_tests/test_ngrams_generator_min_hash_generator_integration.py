@@ -29,7 +29,7 @@ class TestNGramsMinHashIntegration:
             'doc2': ['dog', 'elephant', 'fox']
         }
 
-    def test_full_pipeline_basic(self, sample_documents):
+    def test_pipeline_basic(self, sample_documents):
         # Arrange
         ngrams_gen = NGramsGenerator(n=2)
         minhash_gen = MinHashGenerator(num_permutations=128)
@@ -225,7 +225,3 @@ class TestNGramsMinHashIntegration:
                 else:
                     assert 0 <= sim < 1.0
         assert len(similarity_matrix) == len(docs) * (len(docs) + 1) // 2
-
-
-if __name__ == '__main__':
-    pytest.main([__file__, '-v'])
