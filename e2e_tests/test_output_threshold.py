@@ -3,7 +3,7 @@ import tempfile
 import shutil
 import csv
 
-from utils import create_input_files, run_pipeline, EXPECTED_CSV_HEADERS
+from utils import create_input_files, run_pipeline, validate_result
 
 def run_pipeline_successfully_with_provided_threshold_output(files_content, output, threshold):
     temp_dir = tempfile.mkdtemp()
@@ -12,24 +12,7 @@ def run_pipeline_successfully_with_provided_threshold_output(files_content, outp
     try:
         create_input_files(temp_dir, files_content, encoding='utf-8')
         result = run_pipeline(temp_dir, output_file=output_file, threshold=threshold)
-
-        assert result.returncode == 0, f"Pipeline failed. Stderr: {result.stderr}"
-        assert os.path.exists(output_file)
-
-        with open(output_file, 'r', newline='') as csvfile:
-            reader = csv.reader(csvfile)
-            header = next(reader)
-            rows = list(reader)
-        assert header == EXPECTED_CSV_HEADERS
-        assert len(rows) >= 1
-
-        for row in rows:
-            assert len(row) == 3
-            try:
-                float(row[2])
-            except ValueError:
-                assert False, f"Similarity score '{row[2]}' is not a valid number."
-
+        rows = validate_result(result, output_file)
         default_output_file = os.path.join(temp_dir, "result.csv")
         run_pipeline(temp_dir, default_output_file)
 
