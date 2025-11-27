@@ -40,7 +40,7 @@ jobs:
 
     - name: Test integration tests
       run: |
-        python -m unittest discover -s integration_tests -p "test_*.py" 
+        pytest integration_tests/
         
     - name: Test e2e tests with pytest
       run: |
