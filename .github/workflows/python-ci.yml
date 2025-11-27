@@ -37,8 +37,11 @@ jobs:
     - name: Test with unittest
       run: |
         python -m unittest discover -s tests -p "test_*.py"
-        
-    - name: Test with pytest
+
+    - name: Test integration tests
       run: |
-        pytest
+        pytest integration_tests/
+        
+    - name: Test e2e tests with pytest
+      run: |
         pytest e2e_tests/
