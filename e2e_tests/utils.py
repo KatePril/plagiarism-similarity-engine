@@ -1,3 +1,4 @@
+import csv
 import os
 import subprocess
 from typing import Dict
@@ -28,3 +29,23 @@ def create_input_files(temp_dir: str, files: Dict[str, str], encoding: str = 'ut
         filepath = os.path.join(temp_dir, filename)
         with open(filepath, 'w', encoding=encoding) as f:
             f.write(content)
+
+
+def validate_result(result, output_file, expected_rows_num=1):
+    assert result.returncode == 0, f"Pipeline failed. Stderr: {result.stderr}"
+    assert os.path.exists(output_file)
+
+    with open(output_file, 'r', newline='') as csvfile:
+        reader = csv.reader(csvfile)
+        header = next(reader)
+        rows = list(reader)
+    assert header == EXPECTED_CSV_HEADERS
+    assert len(rows) >= expected_rows_num
+
+    for row in rows:
+        assert len(row) == 3
+        try:
+            float(row[2])
+        except ValueError:
+            assert False, f"Similarity score '{row[2]}' is not a valid number."
+    return rows

@@ -10,11 +10,14 @@ from src.output_writer import OutputWriter
 
 def parse_arg():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--input', '-i', required=True, type=str)
-    parser.add_argument('--output', '-o', default='report.csv', type=str)
-    parser.add_argument('--threshold', '-t', default=0.7, type=float)
-    parser.add_argument('--encoding', '-e', default='utf-8', type=str)
-    parser.add_argument('--language', '-l', default='english', type=str)
+    parser.add_argument('--input', '-i', required=True, type=str,
+                        help='A path to directory with files that need to be evaluated')
+    parser.add_argument('--output', '-o', default='report.csv', type=str, help='A path to output file')
+    parser.add_argument('--threshold', '-t', default=0.7, type=float,
+                        help='A threshold for determining plagiarism')
+    parser.add_argument('--encoding', '-e', default='utf-8', type=str, help='The encoding name')
+    parser.add_argument('--language', '-l', default='english', type=str,
+                        help='The language of the files in the input directory')
     return parser.parse_args()
 
 
