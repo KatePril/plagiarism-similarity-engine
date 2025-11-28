@@ -1,5 +1,12 @@
 # Plagiarism similarity engine
-An engine for plagiarism was developed in the scope of this project.
+An engine for plagiarism was developed in the scope of this project. Project core components:
+- Input manager
+- NTLK tokenizer
+- NGrams generator
+- MinHash generator
+- LSH generator
+- Similarity evaluator
+- Output writer
 
 ## Prepare the project
 Clone the repository
